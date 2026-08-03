@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* JIN (jin57) brand colors — extracted from https://pc.jin57.cc/ */
+  --brand-from: #6596b3;
+  --brand-to: #192933;
+  --brand-accent: #f6df89;
+  --brand-accent-dark: #e0b95c;
+  /* JIN's buttons are light gold, so white text doesn't read well — the real
+     site uses this dark navy instead. Other site variants leave this at
+     white (see wu88-demo / lifehigh-demo globals.css). */
+  --brand-button-text: #2a4556;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #141414;
+  color: #f2f2f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.marquee-track {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.sparkle {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 4px;
+}
