@@ -58,3 +58,22 @@ export function getEffectiveMobileImage(slotId: string): string | null {
   const dir = getSlotsDir();
   return findFileForStorageId(dir, mobileSlotKey(slotId)) ?? findFileForStorageId(dir, slotId);
 }
+
+/**
+ * The map every page component actually needs: every slot's plain (desktop)
+ * key AND its "__mobile" override key, both in the same object. Components
+ * read images via `images[slotId]` (desktop) or `images[mobileSlotKey(slotId)]`
+ * (mobile override, falling back to desktop when absent) — getSlotImageMap()
+ * alone only ever populates the plain keys, so any mobileSlotKey() lookup
+ * against it would silently always be undefined. Use this instead of
+ * getSlotImageMap() everywhere the site is actually rendered for visitors.
+ */
+export function getRenderImageMap(): Record<string, string | null> {
+  const dir = getSlotsDir();
+  const map: Record<string, string | null> = {};
+  for (const slot of IMAGE_SLOTS) {
+    map[slot.id] = findFileForStorageId(dir, slot.id);
+    map[mobileSlotKey(slot.id)] = findFileForStorageId(dir, mobileSlotKey(slot.id));
+  }
+  return map;
+}

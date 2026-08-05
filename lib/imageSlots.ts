@@ -7,6 +7,16 @@ import { navCategories } from "@/data/nav";
 
 export type ImageSlotCategory = "banner" | "icon" | "logo" | "provider";
 
+/** Pseudo "slot id" (not a real upload slot — never valid for /api/upload-image)
+ * used only to store a single shared position/scale setting that applies to
+ * every vendor card's art image at once, so uploads don't need dragging one
+ * by one. Desktop and mobile each get their own value via the normal
+ * mobileSlotKey() suffix, same as any real slot. A provider image that has
+ * its own saved position still wins over this global default. JIN's cards
+ * don't have a corner logo badge (unlike wu88/lifehigh), so there's no
+ * separate badge global slot here. */
+export const GLOBAL_PROVIDER_SLOT_ID = "__global-provider__";
+
 export type ImageSlot = {
   id: string;
   label: string;
@@ -46,6 +56,11 @@ export const IMAGE_SLOTS: ImageSlot[] = [
   { id: "sidedock-mail", label: "側邊信箱 Icon", category: "icon", width: 32, height: 32 },
   { id: "sidedock-app", label: "側邊 APP 下載 Icon", category: "icon", width: 32, height: 32 },
   { id: "sidedock-cs-right", label: "右側客服圓形按鈕 Icon", category: "icon", width: 36, height: 36 },
+
+  // Mobile-only fields — status board (登入/註冊 上方的通知列 + 存款/提款捷徑).
+  { id: "mobile-status-bell-icon", label: "手機版狀態列 - 通知鈴鐺 Icon", category: "icon", width: 20, height: 20 },
+  { id: "mobile-shortcut-deposit", label: "手機版狀態列 - 存款捷徑 Icon", category: "icon", width: 32, height: 32 },
+  { id: "mobile-shortcut-withdraw", label: "手機版狀態列 - 提款捷徑 Icon", category: "icon", width: 32, height: 32 },
 
   // Footer vendor/partner logo strip. Upload as many as needed — the
   // footer only renders the ones that actually have a file uploaded.
@@ -89,6 +104,124 @@ export const NAV_PROVIDER_SLOTS: ImageSlot[] = navCategories.flatMap((cat) =>
 );
 
 IMAGE_SLOTS.push(...NAV_PROVIDER_SLOTS);
+
+/** Deterministic slot id for a nav category's Nth provider LOGO — separate
+ * from navProviderSlotId's art image. Confirmed against jin57.cc: rectangular
+ * vendor cards (`.jin_game-card-tv-wrap` + `.jin_game-card-tv-t`) stack a
+ * small logo image directly above the provider's name text. */
+export function navProviderLogoSlotId(categoryKey: string, index: number): string {
+  return `nav-${categoryKey}-${index}-logo`;
+}
+
+// Categories whose mobile vendor cards render the logo-above-name panel —
+// 熱門 (square, no text at all) and 直播 (full-bleed art, no text/logo either)
+// are excluded, confirmed via DOM inspection of both on the real site.
+const LOGO_PANEL_CATEGORY_KEYS = new Set(
+  navCategories.map((c) => c.key).filter((key) => key !== "hot" && key !== "live-stream")
+);
+
+export const MOBILE_PROVIDER_LOGO_SLOTS: ImageSlot[] = navCategories
+  .filter((cat) => LOGO_PANEL_CATEGORY_KEYS.has(cat.key))
+  .flatMap((cat) =>
+    cat.providers.map((providerName, idx) => ({
+      id: navProviderLogoSlotId(cat.key, idx),
+      label: `${cat.label} - ${providerName}（廠商名稱上方 Logo）`,
+      category: "provider" as const,
+      width: 90,
+      height: 50,
+    }))
+  );
+
+IMAGE_SLOTS.push(...MOBILE_PROVIDER_LOGO_SLOTS);
+
+/** Slot id for a mobile-only left-rail category icon, default (unselected)
+ * state. */
+export function mobileCatIconSlotId(categoryKey: string): string {
+  return `mobile-cat-${categoryKey}-icon`;
+}
+
+/** Slot id for a mobile-only left-rail category icon, active (selected)
+ * state. */
+export function mobileCatIconActiveSlotId(categoryKey: string): string {
+  return `mobile-cat-${categoryKey}-icon-active`;
+}
+
+// Two upload slots per mobile left-rail category icon: default + active
+// state (jin57.cc's real mobile rail is icon-left/text-right per row, unlike
+// wu88's icon-above-text or lifehigh's horizontal top strip).
+export const MOBILE_CATEGORY_SLOTS: ImageSlot[] = navCategories.flatMap((cat) => [
+  {
+    id: mobileCatIconSlotId(cat.key),
+    label: `手機版分類欄 - ${cat.label} 圖示（預設）`,
+    category: "icon" as const,
+    width: 35,
+    height: 35,
+  },
+  {
+    id: mobileCatIconActiveSlotId(cat.key),
+    label: `手機版分類欄 - ${cat.label} 圖示（選中）`,
+    category: "icon" as const,
+    width: 35,
+    height: 35,
+  },
+]);
+
+IMAGE_SLOTS.push(...MOBILE_CATEGORY_SLOTS);
+
+/** Shared background texture behind every mobile vendor-list card's art
+ * (jin57.cc uses a shared "jin_game_bg" texture behind every card) — one
+ * slot, reused by every card at once. */
+export const MOBILE_VENDOR_CARD_BG_SLOT_ID = "mobile-vendor-card-bg";
+
+IMAGE_SLOTS.push({
+  id: MOBILE_VENDOR_CARD_BG_SLOT_ID,
+  label: "手機版廠商列表卡片底圖（共用底圖，套用到所有廠商卡片）",
+  category: "banner",
+  width: 129,
+  height: 129,
+});
+
+/** The oversized "featured live" banner card that renders as the first item
+ * in the 熱門 (hot) category's vendor grid on jin57.cc — full-width, not
+ * part of the regular 2-column square grid. One dedicated slot (not tied to
+ * a specific vendor), since it's a standalone promotional placement. */
+export const FEATURED_LIVE_CARD_SLOT_ID = "featured-live-card";
+
+IMAGE_SLOTS.push({
+  id: FEATURED_LIVE_CARD_SLOT_ID,
+  label: "手機版「熱門」分類 - 頂部特色 Live 廣告卡片（全寬）",
+  category: "banner",
+  width: 266,
+  height: 115,
+});
+
+/** Slot id for a mobile-only bottom tab-bar icon. */
+export function mobileTabIconSlotId(itemId: string): string {
+  return `mobile-tab-${itemId}-icon`;
+}
+
+/** jin57.cc's real mobile bottom bar is a flat 5-column row, but the MIDDLE
+ * item (贊助) always renders an oversized mascot image floating above the
+ * bar instead of a small icon — the other 4 stay small/standard, and none
+ * of them are "raised" the way wu88's center FAB is (this one just has a
+ * bigger image, same flat row). */
+export const MOBILE_TAB_ITEMS = [
+  { id: "benefits", label: "福利", fallbackEmoji: "🎁" },
+  { id: "service", label: "服務", fallbackEmoji: "🎧" },
+  { id: "sponsor", label: "贊助", fallbackEmoji: "🦆", featured: true },
+  { id: "billing", label: "帳務", fallbackEmoji: "📄" },
+  { id: "member", label: "我的", fallbackEmoji: "👤" },
+] as const;
+
+export const MOBILE_TAB_SLOTS: ImageSlot[] = MOBILE_TAB_ITEMS.map((item) => ({
+  id: mobileTabIconSlotId(item.id),
+  label: `手機版底部選單 - ${item.label} 圖示${"featured" in item && item.featured ? "（特色吉祥物，尺寸較大）" : ""}`,
+  category: "icon" as const,
+  width: "featured" in item && item.featured ? 94 : 22,
+  height: "featured" in item && item.featured ? 87 : 22,
+}));
+
+IMAGE_SLOTS.push(...MOBILE_TAB_SLOTS);
 
 export const ALLOWED_IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "webp", "gif", "svg"] as const;
 

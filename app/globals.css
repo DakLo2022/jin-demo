@@ -26,16 +26,21 @@ body {
   box-sizing: border-box;
 }
 
+/* Two back-to-back copies of the text sit inside .marquee-track's children,
+   so the track is exactly 2x one copy's width. Animating 0% -> -50% shifts
+   by exactly one copy's width — visible immediately on load (no empty
+   runway) and the loop seam is invisible since the second copy lands where
+   the first started. */
 .marquee-track {
-  animation: marquee 26s linear infinite;
+  animation: marquee 18s linear infinite;
 }
 
 @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -51,4 +56,15 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #3a3a3a;
   border-radius: 4px;
+}
+
+/* Hides the scrollbar track/thumb while keeping the element scrollable —
+   used on the mobile category grid, where a visible scrollbar looks out of
+   place next to native app-style UI. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

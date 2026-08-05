@@ -408,5 +408,555 @@
     "x": 0,
     "y": 0,
     "scale": 1
+  },
+  "featured-live-card": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vendor-card-bg__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-hot-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-hot-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-hot-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-3__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-4__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-5__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-6__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-7__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-8__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-9__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-10__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-11__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-12__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-13__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-14__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-15__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-16__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-17__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-3__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-4__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-5__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-3__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-4__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-5__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-6__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-7__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-8__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-3__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-2__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-fishing-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-fishing-1__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-esports-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-stream-0__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-shortcut-deposit__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-shortcut-withdraw": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-status-bell-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-hot-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-slots-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-sports-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-live-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-lottery-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-cards-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-fishing-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-esports-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-cat-live-stream-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-benefits-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-service-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-sponsor-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-member-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-billing-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-2-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-3-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-4-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-5-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-6-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-7-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-8-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-9-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-10-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-11-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-12-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-13-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-14-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-15-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-16-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-slots-17-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-2-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-3-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-4-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-sports-5-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-2-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-3-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-4-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-5-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-6-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-7-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-live-8-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-2-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-lottery-3-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-cards-2-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-fishing-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-fishing-1-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "nav-esports-0-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
   }
 }

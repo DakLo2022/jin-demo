@@ -7,6 +7,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // Desktop/mobile layout switch runs on pure CSS width via this
+      // breakpoint, not JS/device detection. Overriding just "md" here (not
+      // touching sm/lg/xl/2xl) moves that threshold from Tailwind's default
+      // 768px down to 500px everywhere it's used.
+      screens: {
+        md: "500px",
+      },
       colors: {
         brand: {
           // These 4 map straight to CSS variables set in globals.css. To
