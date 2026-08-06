@@ -958,5 +958,190 @@
     "x": 0,
     "y": 0,
     "scale": 1
+  },
+  "membercentre-logo": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "topbar-member-icon": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "topbar-mail-icon": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "topbar-logout-icon": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-storesearch-711-5": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-storesearch-711-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-storesearch-711-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-storesearch-711-3": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-storesearch-711-4": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-deposit-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-deposit-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-deposit-3": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-deposit-4": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-deposit-5": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-3": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-4": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-5": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-6": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-7": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-8": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-9": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-10": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-11": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-12": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-13": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-register-14": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-3": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-4": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-5": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-buy-6": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-history-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-history-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "help-usdt-bitopro-history-3": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
   }
 }

@@ -1,14 +1,30 @@
-import { getSlotImageMap } from "@/lib/imageSlotsServer";
+"use client";
+
+import { useState } from "react";
+import HelpCenterModal from "./HelpCenterModal";
+
+type Props = { images: Record<string, string | null> };
 
 // Right-edge 客服 button, vertically centered, fixed (doesn't scroll). The
 // bottom-right member-center button and the left-edge icon dock
 // (客服/Line/信箱/APP下載) have both been removed for this site variant.
-export default function SideDock() {
-  const images = getSlotImageMap();
+// Clicking it opens the 協助中心 (Help Center) popup, so this needs to be a
+// client component — images are passed down from the page.tsx Server
+// Component instead of being fetched here directly.
+export default function SideDock({ images }: Props) {
+  const [showHelp, setShowHelp] = useState(false);
   const csIconSrc = images["sidedock-cs-right"];
 
   return (
-    <div className="group fixed right-0 top-1/2 z-40 -translate-y-1/2">
+    // Fragment, not a single wrapper div: the button sits in its own
+    // `fixed` + `-translate-y-1/2` positioned box, but that `transform`
+    // creates a new containing block for any `position: fixed` descendant
+    // — which was squashing HelpCenterModal's own `fixed inset-0` down to
+    // this small transformed box (pinned to the right edge) instead of the
+    // real viewport. Rendering the modal as a sibling outside that
+    // transformed div avoids the containing-block trap entirely.
+    <>
+      <div className="group fixed right-0 top-1/2 z-40 -translate-y-1/2">
       {/* "協助中心" label bubble slides/fades in to the left on hover. */}
       <span className="pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full bg-brand-accent px-4 py-2 text-sm text-[var(--brand-button-text)] opacity-0 scale-95 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100">
         協助中心
@@ -17,8 +33,9 @@ export default function SideDock() {
           same navy/teal gradient as the TopBar, with a white-ringed circle
           inset — matches pc.jin57.cc's .helpCenter button exactly. */}
       <button
+        onClick={() => setShowHelp(true)}
         className="flex h-20 w-20 items-center justify-center rounded-l-full bg-gradient-to-b from-brand-to to-brand-from shadow-lg transition-transform duration-300 group-hover:scale-105"
-        aria-label="客服"
+        aria-label="協助中心"
       >
         <span className="flex h-[60px] w-[60px] items-center justify-center rounded-full border-[3px] border-white">
           {csIconSrc ? (
@@ -50,5 +67,8 @@ export default function SideDock() {
         </span>
       </button>
     </div>
+
+      <HelpCenterModal open={showHelp} onClose={() => setShowHelp(false)} images={images} />
+    </>
   );
 }

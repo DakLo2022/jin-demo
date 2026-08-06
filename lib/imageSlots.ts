@@ -38,12 +38,22 @@ export const IMAGE_SLOTS: ImageSlot[] = [
   { id: "promo-card-2", label: "示範專區 2 卡片圖", category: "banner", width: 370, height: 144 },
   { id: "promo-card-3", label: "示範專區 3 卡片圖", category: "banner", width: 370, height: 144 },
   { id: "promo-card-4", label: "示範專區 4 卡片圖", category: "banner", width: 370, height: 144 },
+
+  { id: "invite-friends-banner", label: "會員中心 - 邀請好友 滿版banner圖", category: "banner", width: 1000, height: 360 },
+  // Real pc.jin57.cc uses a looping background video on this page — this
+  // demo uses an uploadable static image instead (full-bleed, cover), layered
+  // over the same navy→blue brand gradient as a fallback.
+  { id: "register-bg", label: "免費註冊頁面 - 背景圖（原站為影片，這裡用靜態圖取代）", category: "banner", width: 1600, height: 900 },
   { id: "promo-card-5", label: "示範專區 5 卡片圖", category: "banner", width: 370, height: 144 },
 
   { id: "logo", label: "導覽列 Logo", category: "icon", width: 96, height: 96 },
+  { id: "membercentre-logo", label: "會員中心頁面 Logo", category: "icon", width: 130, height: 52 },
   { id: "topbar-register-icon", label: "免費註冊按鈕左側 Icon", category: "icon", width: 20, height: 20 },
   { id: "topbar-eye-show", label: "密碼欄位「顯示密碼」Icon", category: "icon", width: 20, height: 20 },
   { id: "topbar-eye-hide", label: "密碼欄位「隱藏密碼」Icon", category: "icon", width: 20, height: 20 },
+  { id: "topbar-member-icon", label: "頂列（登入後）會員中心 Icon", category: "icon", width: 20, height: 20 },
+  { id: "topbar-mail-icon", label: "頂列（登入後）消息中心 Icon", category: "icon", width: 20, height: 20 },
+  { id: "topbar-logout-icon", label: "頂列（登入後）登出 Icon", category: "icon", width: 20, height: 20 },
   { id: "promo-icon-1", label: "優惠卡片 1 Icon", category: "icon", width: 64, height: 64 },
   { id: "promo-icon-2", label: "優惠卡片 2 Icon", category: "icon", width: 64, height: 64 },
   { id: "promo-icon-3", label: "優惠卡片 3 Icon", category: "icon", width: 64, height: 64 },
@@ -222,6 +232,38 @@ export const MOBILE_TAB_SLOTS: ImageSlot[] = MOBILE_TAB_ITEMS.map((item) => ({
 }));
 
 IMAGE_SLOTS.push(...MOBILE_TAB_SLOTS);
+
+/** Slot id for step N of one of the 協助中心 (Help Center) step-by-step
+ * screenshot tutorials. Real site's tutorial tabs are each just a paginated
+ * sequence of plain screenshots with no real text content, so each step
+ * gets its own upload slot. */
+export function helpCenterStepSlotId(flow: string, step: number): string {
+  return `help-${flow}-${step}`;
+}
+
+const HELP_CENTER_FLOWS: { flow: string; label: string; count: number; width: number; height: number }[] = [
+  // 超商搜尋流程 only has one store option on pc.jin57.cc (7-11查詢) —
+  // unlike WU88, there's no 全家查詢 toggle.
+  { flow: "storesearch-711", label: "協助中心 - 超商搜尋流程", count: 5, width: 820, height: 420 },
+  // USDT虛擬貨幣 tab splits into two sub-flows: USDT儲值流程 and BitoPro流程
+  // (WU88 doesn't have this BitoPro sub-flow at all).
+  { flow: "usdt-deposit", label: "協助中心 - USDT虛擬貨幣（USDT儲值流程）", count: 5, width: 320, height: 600 },
+  { flow: "usdt-bitopro-register", label: "協助中心 - USDT虛擬貨幣（BitoPro流程 - 下載註冊認證）", count: 14, width: 320, height: 600 },
+  { flow: "usdt-bitopro-buy", label: "協助中心 - USDT虛擬貨幣（BitoPro流程 - 購買 USDT）", count: 6, width: 320, height: 600 },
+  { flow: "usdt-bitopro-history", label: "協助中心 - USDT虛擬貨幣（BitoPro流程 - 查看交易紀錄）", count: 3, width: 320, height: 600 },
+];
+
+export const HELP_CENTER_SLOTS: ImageSlot[] = HELP_CENTER_FLOWS.flatMap(({ flow, label, count, width, height }) =>
+  Array.from({ length: count }, (_, i) => ({
+    id: helpCenterStepSlotId(flow, i + 1),
+    label: `${label} 步驟${i + 1}/${count}`,
+    category: "banner" as const,
+    width,
+    height,
+  }))
+);
+
+IMAGE_SLOTS.push(...HELP_CENTER_SLOTS);
 
 export const ALLOWED_IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "webp", "gif", "svg"] as const;
 
