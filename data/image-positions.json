@@ -1143,5 +1143,25 @@
     "x": 0,
     "y": 0,
     "scale": 1
+  },
+  "invite-friends-banner": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "invite-friends-envelope": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "achievement-rule-icon-1": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "achievement-rule-icon-2": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
   }
 }

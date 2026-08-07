@@ -1031,18 +1031,218 @@ function VipTab({ username }: { username: string }) {
   );
 }
 
+// "儲值完成即生成推薦連結" / "好友首儲..." footnote icon — recolored via CSS
+// mask to match the surrounding #e5e5e5 text tone (same trick as MaskIcon
+// elsewhere), falling back to an emoji if nothing's uploaded yet.
+function RuleIcon({ src, fallback }: { src: string | null; fallback: string }) {
+  if (!src) return <span className="mr-[0.6cqw] flex-shrink-0 text-[0.9cqw] leading-none">{fallback}</span>;
+  return (
+    <span
+      aria-hidden
+      className="mr-[0.6cqw] block h-[0.9cqw] w-[0.9cqw] min-h-[10px] min-w-[10px] flex-shrink-0 bg-[#e5e5e5]"
+      style={{
+        WebkitMaskImage: `url(${src})`,
+        maskImage: `url(${src})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  );
+}
+
+// 推薦成就 (referral achievement) card — re-verified in full against
+// pc.jin57.cc's real /memberCentre 邀請好友 tab (getComputedStyle +
+// getBoundingClientRect on every child) after the first pass turned out to
+// have the dashed divider on the wrong side of the stat-box row and several
+// gap values guessed rather than measured. Ground truth this time:
+//   - card: bg #212932, radius 12px, padding 20px.
+//   - header ("┃推薦成就" / "邀請詳情"): 15px gap to the row below.
+//   - stat-box row: dashed #d9b780 border on BOTH top and bottom (not just
+//     bottom), 20px padding top/bottom inside those borders, 10px gap
+//     between the 3 boxes; each box itself has 15px/5px padding and a 15px
+//     gap between its label and number.
+//   - 20px gap from the stat-box row down to the two 待領取/已領取 rows,
+//     which themselves have 15px between each other.
+//   - 20px gap from those rows down to the two icon+text footnotes, which
+//     have 12px between each other and 12px between each icon and its text.
+// All of that converted to cqw off the same 2007px reference width used for
+// the rest of this overlay, so the card's size/text/gaps all scale in
+// lockstep with the uploaded background image. Positioning itself (top
+// margin down to the envelope, left/width) is handled by the caller
+// (InviteFriendsTab) — this is just a normal flow child, not self
+// positioned.
+function ReferralAchievementCard({
+  className,
+  images,
+}: {
+  className?: string;
+  images: Record<string, string | null>;
+}) {
+  return (
+    // No fixed "height" here on purpose — height is intrinsic (padding +
+    // content) so the bottom padding always matches the top padding
+    // (p-[1cqw] on all four sides) no matter how tall the content ends up
+    // rendering at a given width. A fixed height risked content overflowing
+    // past the bottom edge and swallowing that bottom gap.
+    <div className={`w-full rounded-[0.6cqw] bg-[#212932] p-[1cqw] ${className ?? ""}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <span className="mr-[0.4cqw] block h-[0.8cqw] w-[0.15cqw] min-h-[3px] min-w-[2px] rounded-[0.1cqw] bg-[#f3ca9d]" />
+          <span className="text-[0.8cqw] font-bold text-[#f3ca9d]">推薦成就</span>
+        </div>
+        <span className="cursor-default text-[0.65cqw] text-[#f3ca9d] underline">邀請詳情</span>
+      </div>
+
+      {/* Dashed border on BOTH sides of this row (real site: border-top +
+          border-bottom on the stat-box row itself), not just underneath
+          it — the divider above separates it from the header, the one
+          below separates it from the 待領取/已領取 rows. */}
+      <div className="mt-[0.75cqw] flex gap-[0.5cqw] border-y border-dashed border-[#d9b780] py-[1cqw]">
+        {["推薦註冊人數", "有效儲值人數", "累計獎金"].map((label) => (
+          <div
+            key={label}
+            className="flex flex-1 flex-col items-center rounded-[0.3cqw] border border-[#d9b780] px-[0.25cqw] py-[0.75cqw]"
+          >
+            <span className="text-[0.6cqw] text-[#e5e5e5]">{label}</span>
+            <span className="mt-[0.75cqw] text-[0.8cqw] font-bold text-[#f3ca9d]">0</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-[1cqw] flex flex-col gap-[0.75cqw]">
+        {[
+          { label: "待領取介紹金", claimed: "已領取介紹金" },
+          { label: "待領取佣金", claimed: "已領取佣金" },
+        ].map((row) => (
+          <div key={row.label} className="flex items-center justify-between">
+            <div>
+              <div className="text-[0.7cqw] text-[#e5e5e5]">
+                {row.label} <span className="ml-[0.25cqw] text-[0.9cqw] font-bold text-[#f3ca9d]">0</span>
+              </div>
+              <div className="text-[0.6cqw] text-[#999]">{row.claimed}：0</div>
+            </div>
+            <button
+              disabled
+              className="flex h-[1.4cqw] flex-shrink-0 items-center justify-center rounded-full bg-[#595757] px-[1cqw] text-[0.7cqw] font-bold text-[#999] opacity-70"
+            >
+              領取
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-[1cqw] flex flex-col gap-[0.6cqw] text-[0.65cqw] text-[#e5e5e5]">
+        <span className="flex items-center">
+          <RuleIcon src={images["achievement-rule-icon-1"]} fallback="🎮" />
+          儲值完成即生成推薦連結
+        </span>
+        <span className="flex items-center">
+          <RuleIcon src={images["achievement-rule-icon-2"]} fallback="🧑" />
+          好友首儲3000領取推薦獎金1000！
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// "複製專屬連結" (copy referral link) button — style confirmed live via
+// getComputedStyle against pc.jin57.cc's real button: cream/tan pill
+// (#ead0b2) with dark navy bold text (#273444), fully rounded, drop shadow.
+// Actually wired to the clipboard (there's no backend to generate a real
+// per-member referral link in this demo, so it copies a placeholder URL)
+// with brief "已複製" feedback, rather than left inert — copying text is
+// something this demo CAN do for real with zero backend.
+function CopyReferralLinkButton() {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText("https://jin57.cc/?ref=demo");
+    } catch {
+      // Clipboard API can be unavailable (e.g. insecure context) — the
+      // button still gives visual feedback either way since there's
+      // nothing further for the user to act on in this demo.
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="absolute rounded-full bg-[#ead0b2] py-[0.5cqw] px-[2.24cqw] text-[0.8cqw] font-bold text-[#273444] shadow-[0_4px_10px_rgba(0,0,0,0.2)] transition-opacity hover:opacity-90"
+      style={{ top: "88%", left: "50%", transform: "translate(-50%, -50%)" }}
+    >
+      {copied ? "已複製" : "複製專屬連結"}
+    </button>
+  );
+}
+
 function InviteFriendsTab({ images }: { images: Record<string, string | null> }) {
   const bannerSrc = images["invite-friends-banner"];
+  const envelopeSrc = images["invite-friends-envelope"];
 
-  // Same simplified treatment as WU88's real deployment of this tab: the
-  // whole page is just the uploaded image, full width and full height, no
-  // overlaid QR/stats cards — the real pc.jin57.cc page does show a
-  // QR-code + referral-stats layout here, but per the standing decision
-  // for this project, invite pages are represented as a single full-bleed
-  // banner image instead of rebuilding the (entirely fake-data) stat cards.
+  // Three layers now, split so only the genuinely un-sourceable art stays
+  // as flat uploaded images while the real functional block is real code:
+  //  1. invite-friends-banner — the starfield/gift-box background, full
+  //     bleed behind everything (still absolutely positioned, inset-0).
+  //  2. invite-friends-envelope — the duck mascots + "邀請好友領雙重好禮" +
+  //     QR code + "複製專屬連結" button graphic.
+  //  3. ReferralAchievementCard — built for real (see above), not an image.
+  // #2 and #3 are stacked in normal flow inside one flex column (not each
+  // independently absolute-positioned) so their gaps can just be plain
+  // fixed-px margins — 32px from the top down to the envelope, 40px from
+  // the envelope down to the achievement card, per spec — rather than
+  // guessed percentages that only happened to match one particular
+  // uploaded image.
+  //
+  // Background fills the tab's full width AND height (no aspect-ratio
+  // letterboxing, no gap where the modal's own background would show
+  // through) — object-cover + object-center so it's cropped evenly from
+  // both sides rather than distorted. `containerType: "inline-size"` (set
+  // via inline style, not a Tailwind arbitrary-property class, so it can't
+  // silently no-op on an older Tailwind build) turns this wrapper's own
+  // rendered width into the 100cqw basis that ReferralAchievementCard's
+  // cqw-based sizing reads from, so its size/text still scales together
+  // with however wide the background is actually being displayed — only
+  // the vertical gaps are fixed px now, not the card's own dimensions.
   return bannerSrc ? (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={bannerSrc} alt="邀請好友" className="block h-full w-full object-cover" />
+    <div className="relative h-full w-full" style={{ containerType: "inline-size" }}>
+      {/* select-none + onContextMenu/draggable guards on both flat images:
+          they stand in for un-sourceable art, not real content, so neither
+          should be selectable or right-click-saveable. */}
+      <img
+        src={bannerSrc}
+        alt="邀請好友"
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        className="absolute inset-0 h-full w-full select-none object-cover object-center"
+      />
+      <div className="absolute flex flex-col" style={{ top: 0, left: "38.61%", width: "22.37%" }}>
+        {envelopeSrc ? (
+          // relative wrapper so CopyReferralLinkButton's percentage
+          // position (top:88%, centered) is anchored to the envelope
+          // image's own box — i.e. the gray envelope's lower body — rather
+          // than to the whole background.
+          <div className="relative mt-[32px]">
+            <img
+              src={envelopeSrc}
+              alt=""
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+              className="block h-auto w-full select-none object-contain"
+            />
+            <CopyReferralLinkButton />
+          </div>
+        ) : null}
+        <ReferralAchievementCard className={envelopeSrc ? "mt-[16px]" : "mt-[32px]"} images={images} />
+      </div>
+    </div>
   ) : (
     <div className="flex h-full min-h-[500px] w-full items-center justify-center bg-black/5 text-[12px] text-black/40">
       邀請好友 Banner（請至 /image-manager 上傳）

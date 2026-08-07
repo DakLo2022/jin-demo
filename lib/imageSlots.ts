@@ -39,7 +39,27 @@ export const IMAGE_SLOTS: ImageSlot[] = [
   { id: "promo-card-3", label: "示範專區 3 卡片圖", category: "banner", width: 370, height: 144 },
   { id: "promo-card-4", label: "示範專區 4 卡片圖", category: "banner", width: 370, height: 144 },
 
-  { id: "invite-friends-banner", label: "會員中心 - 邀請好友 滿版banner圖", category: "banner", width: 1000, height: 360 },
+  // Aspect ratio matches the currently-uploaded reference image (2007x866)
+  // exactly — the 推薦成就 (referral achievement) block in InviteFriendsTab
+  // is overlaid at a fixed percentage position/size tuned to THIS ratio.
+  // The image itself renders as object-cover (fills the tab's full
+  // width/height, no letterbox gaps), so a re-upload with a noticeably
+  // different aspect ratio will get cropped and the overlay may drift
+  // slightly off the card art beneath it — keeping ~2007:866 (~2.318:1)
+  // keeps it pixel-aligned.
+  { id: "invite-friends-banner", label: "會員中心 - 邀請好友 背景圖（星空/禮物盒裝飾，比例建議為 2007:866）", category: "banner", width: 2007, height: 866 },
+  // Layered on top of invite-friends-banner, centered at the same top-edge
+  // position/width as ReferralAchievementCard in InviteFriendsTab (so the
+  // envelope's own bottom edge sits flush against the achievement card's
+  // top edge, matching the real site's stacked layout). Recommended
+  // proportions ~449:415 (~1.082:1) to match the reference crop.
+  { id: "invite-friends-envelope", label: "會員中心 - 邀請好友 信封袋圖（鴨鴨+QR CODE+複製連結按鈕，比例建議為 449:415）", category: "banner", width: 449, height: 415 },
+  // Small monochrome line icons in ReferralAchievementCard's footnote rows
+  // (儲值完成即生成推薦連結 / 好友首儲3000領取推薦獎金1000！). Recolored via
+  // CSS mask to match the surrounding #e5e5e5 text tone, same pattern as
+  // the TopBar icons — upload a single-color/transparent glyph.
+  { id: "achievement-rule-icon-1", label: "會員中心 - 推薦成就 提示 Icon 1（儲值完成即生成推薦連結）", category: "icon", width: 20, height: 20 },
+  { id: "achievement-rule-icon-2", label: "會員中心 - 推薦成就 提示 Icon 2（好友首儲領取推薦獎金）", category: "icon", width: 20, height: 20 },
   // Real pc.jin57.cc uses a looping background video on this page — this
   // demo uses an uploadable static image instead (full-bleed, cover), layered
   // over the same navy→blue brand gradient as a fallback.
