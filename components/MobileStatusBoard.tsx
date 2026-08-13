@@ -1,4 +1,10 @@
+"use client";
+
+import { useEffect } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { mobileSlotKey } from "@/lib/imageTransform";
+import { useLoggedIn } from "@/lib/useLoggedIn";
 import { announcements } from "@/data/promos";
 
 type Props = {
@@ -21,6 +27,13 @@ function pickImage(images: Record<string, string | null>, slotId: string): strin
 // text, and 註冊 is a transparent pill with a navy border + navy text
 // (matching `--brand-button-text`) — neither uses the gold accent color.
 export default function MobileStatusBoard({ images }: Props) {
+  const searchParams = useSearchParams();
+  const [loggedIn, setLoggedIn] = useLoggedIn();
+
+  useEffect(() => {
+    if (searchParams.get("loggedIn") === "1") setLoggedIn(true);
+  }, [searchParams]);
+
   const bellIcon = pickImage(images, "mobile-status-bell-icon");
   const depositIcon = pickImage(images, "mobile-shortcut-deposit");
   const withdrawIcon = pickImage(images, "mobile-shortcut-withdraw");
@@ -72,21 +85,29 @@ export default function MobileStatusBoard({ images }: Props) {
 
         {/* Bottom row — auth buttons + deposit/withdraw shortcuts. */}
         <div className="flex items-center justify-between pb-[6px]">
-          <div className="flex gap-2">
-            {/* Two-layer gradient pill, confirmed via getComputedStyle():
-                a 1px light-to-navy frame (`.login-btn`) wraps a blue-to-navy
-                fill (`.login-btn-inner`, #6596b3 -> #192933) with near-white
-                text — reads as a blue gradient button, not the flat
-                gold/navy fill this used before. */}
-            <button className="rounded-full bg-[linear-gradient(180deg,#eef3f7_0%,#192933_100%)] p-px shadow-[0_0_8px_2px_rgba(255,255,255,0.55)]">
-              <span className="block rounded-full bg-[linear-gradient(180deg,#6596b3_0%,#192933_100%)] px-3 py-1.5 text-[13px] font-semibold text-[#eef3f7]">
-                登入
-              </span>
-            </button>
-            <button className="rounded-full border border-[var(--brand-button-text)] px-4 py-1.5 text-[13px] text-[var(--brand-button-text)]">
-              註冊
-            </button>
-          </div>
+          {!loggedIn ? (
+            <div className="flex gap-2">
+              {/* Two-layer gradient pill, confirmed via getComputedStyle():
+                  a 1px light-to-navy frame (`.login-btn`) wraps a blue-to-navy
+                  fill (`.login-btn-inner`, #6596b3 -> #192933) with near-white
+                  text — reads as a blue gradient button, not the flat
+                  gold/navy fill this used before. */}
+              <Link
+                href="/login"
+                className="rounded-full bg-[linear-gradient(180deg,#eef3f7_0%,#192933_100%)] p-px shadow-[0_0_8px_2px_rgba(255,255,255,0.55)]"
+              >
+                <span className="block rounded-full bg-[linear-gradient(180deg,#6596b3_0%,#192933_100%)] px-3 py-1.5 text-[13px] font-semibold text-[#eef3f7]">
+                  登入
+                </span>
+              </Link>
+              <Link
+                href="/login"
+                className="rounded-full border border-[var(--brand-button-text)] px-4 py-1.5 text-[13px] text-[var(--brand-button-text)]"
+              >
+                註冊
+              </Link>
+            </div>
+          ) : null}
           <div className="flex gap-3">
             {/* Real `.shortcut-list-btn` is a 40px circle filled with the
                 same blue-to-navy gradient as the login button

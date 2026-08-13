@@ -1163,5 +1163,75 @@
     "x": 0,
     "y": 0,
     "scale": 1
+  },
+  "activity-dungeon-card__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-service-banner": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-service-banner__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-login-decoration__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-login-logo__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-login-cs-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-bell-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-avatar-frame__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-shortcut-wallet-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-shortcut-funds-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-shortcut-mailbox-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-shortcut-account-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-invite-bg__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-invite-banner__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
   }
 }
