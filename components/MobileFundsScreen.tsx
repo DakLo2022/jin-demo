@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import MobileBottomNav from "./MobileBottomNav";
 import MobileSubPageHeader from "./MobileSubPageHeader";
 
 type Props = { images: Record<string, string | null> };
@@ -14,6 +15,12 @@ const DATE_OPTIONS = ["今日", "昨日", "近7日", "近15日", "近30日"];
 // proven correct on the 帳務 page — real dark backdrop + bottom-border
 // dividers, confirmed via getComputedStyle there), an empty-state body, and
 // a "總計 0" summary bar pinned to the bottom.
+//
+// Re-verified live 2026-08-14 (getComputedStyle on the real bar): it's
+// NOT a dark/transparent strip like the rest of the page — it's a solid
+// WHITE bar, "總計" label near-black (rgba(0,0,0,.87)) 20px/700, and the
+// figure itself in red (#cb143f) 20px/700, both bold. The real page also
+// keeps the bottom tabbar (same as 會員等級/額度轉換) — added back here.
 export default function MobileFundsScreen({ images }: Props) {
   const [activeTab, setActiveTab] = useState(TABS[0]);
   const [selectedDate, setSelectedDate] = useState(DATE_OPTIONS[0]);
@@ -46,10 +53,12 @@ export default function MobileFundsScreen({ images }: Props) {
         <span className="text-[13px]">暫無相關資料</span>
       </div>
 
-      <div className="flex flex-shrink-0 items-center justify-between border-t border-white/10 px-4 py-3 text-[14px] text-white">
-        <span>總計</span>
-        <span>0</span>
+      <div className="flex flex-shrink-0 items-center justify-between bg-white px-4 py-3 text-[20px] font-bold">
+        <span className="text-black">總計</span>
+        <span className="text-[#cb143f]">0</span>
       </div>
+
+      <MobileBottomNav images={images} />
 
       {menuOpen ? (
         <>

@@ -15,6 +15,25 @@ function pickImage(images: Record<string, string | null>, slotId: string): strin
   return images[mobileSlotKey(slotId)] ?? images[slotId];
 }
 
+function MaskIcon({ src, className }: { src: string; className: string }) {
+  return (
+    <span
+      aria-hidden
+      className={className}
+      style={{
+        WebkitMaskImage: `url(${src})`,
+        maskImage: `url(${src})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  );
+}
+
 // Fixed mobile bottom tab bar — flat 5 equal columns (confirmed against
 // jin57.cc's real DOM: all 5 "jin_footer-link" items are the same 56px-tall
 // row, none raised). The MIDDLE item (贊助) is still visually special,
@@ -113,8 +132,15 @@ export default function MobileBottomNav({ images }: Props) {
               className="flex flex-1 flex-col items-center justify-end gap-1 pb-[7px] text-[#a9c5d5]"
             >
               {iconSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={iconSrc} alt="" className="h-[22px] w-[22px] object-contain" />
+                isHome ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={iconSrc} alt="" className="h-[22px] w-[22px] object-contain" />
+                ) : (
+                  // 首頁 icon — per explicit follow-up, recolored white via
+                  // a CSS mask instead of rendering the uploaded image's
+                  // own colors.
+                  <MaskIcon src={iconSrc} className="h-[22px] w-[22px] bg-white" />
+                )
               ) : (
                 <span className="text-xl leading-none" aria-hidden>
                   {isHome ? tab.fallbackEmoji : "🏠"}

@@ -7,6 +7,7 @@ import { mobileSlotKey } from "@/lib/imageTransform";
 import { MY_MENU_ITEMS, myMenuIconSlotId, myShortcutIconSlotId } from "@/lib/imageSlots";
 import { useLoggedIn } from "@/lib/useLoggedIn";
 import MobileBottomNav from "./MobileBottomNav";
+import SponsorComingSoonToast from "./SponsorComingSoonToast";
 
 type Props = { images: Record<string, string | null> };
 
@@ -37,6 +38,18 @@ function ChevronRight() {
   return (
     <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4 flex-shrink-0 text-[#6d8ba1]" fill="none" stroke="currentColor" strokeWidth={2.5}>
       <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// 登出 icon — confirmed live the real button (.logout-btn) has a 20x20 white
+// svg icon (icon-in_out_icon) to the left of the text, mx-2 gap; the current
+// build was missing this icon entirely.
+function LogoutIcon() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 17l5-5-5-5M21 12H9" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -75,11 +88,14 @@ const FOUR_SHORTCUTS = [
 //     pill), narrower than the card below it (30px side margin vs the card's
 //     15px) so it reads as "recessed" into the wider card beneath — confirmed
 //     via getBoundingClientRect on both.
-//   - VIP特權/任務中心: two gold-diamond buttons, confirmed live both route to
-//     real pages (VIP特權 → /vip_level, works for this test account; 任務中心
-//     → silently no-ops for this test account, confirmed clicking it twice —
-//     both the box AND its identical chevron-list entry below do nothing,
-//     most likely gated behind account state this test login doesn't have).
+//   - VIP特權/任務中心: two gold-diamond buttons. VIP特權 routes to a real
+//     page (/vip_level). 任務中心 does NOT navigate — re-confirmed live
+//     2026-08-14 via a synthetic click with a short wait afterward (an
+//     earlier pass missed this because the popup fades before it's
+//     noticed): it pops the same small centered gold "即將推出" card used
+//     for the bottom nav's 贊助 button. Both the hero box AND its identical
+//     chevron-list entry below trigger this same toast, reproduced here by
+//     reusing SponsorComingSoonToast instead of Links to a real page.
 //   - 4-icon shortcut row + chevron list: confirmed live via clicking each
 //     with synthetic pointer events and reading the resulting location.href
 //     (see MY_MENU_ITEMS in imageSlots.ts for hrefs) — 團隊中心 and 安全中心
@@ -98,15 +114,24 @@ export default function MobileMyScreen({ images }: Props) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [lang, setLang] = useState<"zh" | "en">("zh");
+  // 任務中心 — re-confirmed live on jin57.cc/menu (2026-08-14, synthetic
+  // click on the real button): it does NOT navigate anywhere. A prior pass
+  // assumed it silently no-ops (the toast fades before it was noticed), but
+  // it actually pops the same small centered gold "即將推出" card used for
+  // the bottom nav's 贊助 button (reusing SponsorComingSoonToast) — both the
+  // hero diamond button AND its identical chevron-list row below share this.
+  const [showTasksToast, setShowTasksToast] = useState(false);
 
   const bellSrc = pickImage(images, "mobile-my-bell-icon");
   const avatarFrameSrc = pickImage(images, "mobile-my-avatar-frame");
   const diamondSrc = pickImage(images, "mobile-my-diamond-icon");
   const backArrowSrc = pickImage(images, "mobile-back-arrow-icon");
 
+  // 登出 — per explicit follow-up, now routes to the login screen instead
+  // of the homepage, matching the real site's own post-logout redirect.
   function handleLogout() {
     setLoggedIn(false);
-    router.push("/");
+    router.push("/login");
   }
 
   return (
@@ -283,8 +308,9 @@ export default function MobileMyScreen({ images }: Props) {
                     </span>
                   </span>
                 </Link>
-                <Link
-                  href="/tasks"
+                <button
+                  type="button"
+                  onClick={() => setShowTasksToast(true)}
                   className="h-[54px] w-[165px] rounded-[10px] bg-gradient-to-b from-[#eef3f7] to-[#87adc4] p-px"
                 >
                   <span
@@ -304,14 +330,14 @@ export default function MobileMyScreen({ images }: Props) {
                       <span className="text-[10px] leading-tight text-[#eec62a]">TASK CENTER</span>
                     </span>
                   </span>
-                </Link>
+                </button>
               </div>
             </div>
           </div>
 
           {/* Section 2 — pulled up to overlap section 1's bottom, exactly
               like `.menu-list` on the real site. */}
-          <div className="relative -mt-[114px] overflow-hidden pb-[56px] pt-[114px]">
+          <div className="pointer-events-none relative -mt-[114px] overflow-hidden pb-[56px] pt-[114px]">
             {/* Fill layer — per explicit follow-up, the flat dark fill
                 below the circle is now the SAME vertical gradient as the
                 VIP按钮卡片 above it (light top → dark bottom, matching
@@ -348,7 +374,7 @@ export default function MobileMyScreen({ images }: Props) {
 
             {/* 4-icon shortcut row — real 25px side inset, 44x44 icons,
                 12px/700 label color #ccdce6. */}
-            <div className="relative z-10 flex justify-around px-[25px] pb-4">
+            <div className="pointer-events-auto relative z-10 flex justify-around px-[25px] pb-4">
               {FOUR_SHORTCUTS.map((item) => {
                 const iconSrc = pickImage(images, myShortcutIconSlotId(item.id));
                 return (
@@ -367,11 +393,16 @@ export default function MobileMyScreen({ images }: Props) {
               })}
             </div>
 
-            {/* Chevron menu list — real px-3 (12px) side inset, each row a
-                solid #192933 49px-tall bar with a 1px #ccdce6 bottom
-                divider, 20x20 icon + 14px/400 #ccdce6 label on the left,
-                a brighter 22px #eef3f7 chevron on the right. */}
-            <div className="relative z-10 px-3">
+            {/* Chevron menu list — real px-3 (12px) side inset for the list
+                block itself (matches the real site). Per explicit follow-up
+                (the previous px-4 change only widened this OUTER margin,
+                which didn't touch the actual complaint — each row's own
+                icon/chevron was still flush against the row's own edge),
+                each row now additionally carries its own px-4 (16px)
+                internal padding so the icon/text and chevron sit 16px in
+                from the row's own left/right edge. Each row is a solid
+                #192933 49px-tall bar with a 1px #ccdce6 bottom divider. */}
+            <div className="pointer-events-auto relative z-10 px-3">
               {MY_MENU_ITEMS.map((item) => {
                 const iconSrc = pickImage(images, myMenuIconSlotId(item.id));
 
@@ -391,13 +422,12 @@ export default function MobileMyScreen({ images }: Props) {
                       <button
                         type="button"
                         onClick={() => setLangOpen((v) => !v)}
-                        className="flex h-[49px] w-full items-center justify-between border-b border-[#ccdce6] text-[14px] text-[#ccdce6]"
+                        className="flex h-[49px] w-full items-center justify-between border-b border-[#ccdce6] px-4 text-[14px] text-[#ccdce6]"
                         style={{ background: "#192933" }}
                       >
                         <span className="flex items-center gap-3">
                           {iconSrc ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={iconSrc} alt="" className="h-5 w-5 object-contain" />
+                            <MaskIcon src={iconSrc} className="h-5 w-5 bg-[#677c8f]" />
                           ) : (
                             <span className="h-5 w-5" aria-hidden />
                           )}
@@ -457,17 +487,54 @@ export default function MobileMyScreen({ images }: Props) {
                   );
                 }
 
+                // 任務中心 chevron row — the hero diamond button above and
+                // this row are confirmed live to be the exact same trigger
+                // (same 即將推出 toast, not a page), so this one is a
+                // button too instead of a Link.
+                if (item.id === "tasks") {
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setShowTasksToast(true)}
+                      className="flex h-[49px] w-full items-center justify-between border-b border-[#ccdce6] px-4 text-[14px] text-[#ccdce6]"
+                      style={{ background: "#192933" }}
+                    >
+                      <span className="flex items-center gap-3">
+                        {iconSrc ? (
+                          <MaskIcon src={iconSrc} className="h-5 w-5 bg-[#677c8f]" />
+                        ) : (
+                          <span className="h-5 w-5" aria-hidden />
+                        )}
+                        {item.label}
+                      </span>
+                      <ChevronRight />
+                    </button>
+                  );
+                }
+
+                // 綁定帳戶 — the first row in the list — is confirmed live to
+                // carry the list's own top rounding (10px 10px 0 0) plus a
+                // subtle engraved inset shadow just under that top edge
+                // (0 5px 2px 0 inset #2a4556); every other row is flush/
+                // square with no shadow.
+                const isFirst = item.id === "bind-account";
+
                 return (
                   <Link
                     key={item.id}
                     href={item.href}
-                    className="flex h-[49px] items-center justify-between border-b border-[#ccdce6] text-[14px] text-[#ccdce6]"
-                    style={{ background: "#192933" }}
+                    className={`flex h-[49px] items-center justify-between border-b border-[#ccdce6] px-4 text-[14px] text-[#ccdce6] ${
+                      isFirst ? "rounded-t-[10px]" : ""
+                    }`}
+                    style={{
+                      background: "#192933",
+                      boxShadow: isFirst ? "inset 0 5px 2px 0 #2a4556" : undefined,
+                    }}
                   >
                     <span className="flex items-center gap-3">
                       {iconSrc ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={iconSrc} alt="" className="h-5 w-5 object-contain" />
+                        <MaskIcon src={iconSrc} className="h-5 w-5 bg-[#677c8f]" />
                       ) : (
                         <span className="h-5 w-5" aria-hidden />
                       )}
@@ -479,17 +546,22 @@ export default function MobileMyScreen({ images }: Props) {
               })}
 
               {/* 協助中心 — the ONLY row that expands inline instead of
-                  navigating, per explicit instruction. */}
+                  navigating, per explicit instruction. It's also the last
+                  row in the list, confirmed live to carry the list's own
+                  bottom rounding (0 0 10px 10px) plus a matching engraved
+                  inset shadow just above that bottom edge
+                  (0 -4px 2px 0 inset #080e11), and — unlike every other
+                  row — NO bottom divider (its own edge IS the list's
+                  bottom edge). */}
               <button
                 type="button"
                 onClick={() => setHelpOpen((v) => !v)}
-                className="flex h-[49px] w-full items-center justify-between border-b border-[#ccdce6] text-[14px] text-[#ccdce6]"
-                style={{ background: "#192933" }}
+                className="flex h-[49px] w-full items-center justify-between rounded-b-[10px] px-4 text-[14px] text-[#ccdce6]"
+                style={{ background: "#192933", boxShadow: "inset 0 -4px 2px 0 #080e11" }}
               >
                 <span className="flex items-center gap-3">
                   {pickImage(images, myMenuIconSlotId("help")) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={pickImage(images, myMenuIconSlotId("help"))!} alt="" className="h-5 w-5 object-contain" />
+                    <MaskIcon src={pickImage(images, myMenuIconSlotId("help"))!} className="h-5 w-5 bg-[#677c8f]" />
                   ) : (
                     <span className="h-5 w-5" aria-hidden />
                   )}
@@ -527,15 +599,17 @@ export default function MobileMyScreen({ images }: Props) {
             </div>
 
             {/* Logout — real pill button: mx-3 (12px), 48px tall,
-                border-radius 20px, 90deg gold gradient
-                #eec62a→#a6860d, white 14px/700 label. */}
-            <div className="relative z-10 px-3 pt-4">
+                border-radius 20px, 90deg gold gradient #eec62a→#a6860d,
+                white 14px/700 label, PLUS a 20x20 white icon to the left
+                (confirmed live — the previous build was missing it). */}
+            <div className="pointer-events-auto relative z-10 px-3 pt-4">
               <button
                 type="button"
                 onClick={handleLogout}
                 className="flex h-[48px] w-full items-center justify-center gap-2 rounded-[20px] text-[14px] font-bold text-white"
                 style={{ background: "linear-gradient(90deg, #eec62a, #a6860d)" }}
               >
+                <LogoutIcon />
                 登出
               </button>
             </div>
@@ -544,6 +618,13 @@ export default function MobileMyScreen({ images }: Props) {
       </div>
 
       <MobileBottomNav images={images} />
+
+      {showTasksToast ? (
+        <SponsorComingSoonToast
+          imageSrc={pickImage(images, "mobile-sponsor-notice-icon")}
+          onClose={() => setShowTasksToast(false)}
+        />
+      ) : null}
     </div>
   );
 }

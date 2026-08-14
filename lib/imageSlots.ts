@@ -92,6 +92,19 @@ export const IMAGE_SLOTS: ImageSlot[] = [
   { id: "mobile-status-bell-icon", label: "手機版狀態列 - 通知鈴鐺 Icon", category: "icon", width: 20, height: 20 },
   { id: "mobile-shortcut-deposit", label: "手機版狀態列 - 存款捷徑 Icon", category: "icon", width: 32, height: 32 },
   { id: "mobile-shortcut-withdraw", label: "手機版狀態列 - 提款捷徑 Icon", category: "icon", width: 32, height: 32 },
+  // 登入/註冊 按鈕左側 icon — confirmed live on jin57.cc (logged-out state):
+  // `.login-btn` has a small door+arrow "sign-in" icon, `.register-btn` has
+  // a small person+pencil "sign-up" icon, both 12x12 and positioned before
+  // the button text.
+  { id: "mobile-status-login-icon", label: "手機版狀態列 - 登入按鈕左側 Icon", category: "icon", width: 12, height: 12 },
+  { id: "mobile-status-register-icon", label: "手機版狀態列 - 註冊按鈕左側 Icon", category: "icon", width: 12, height: 12 },
+
+  // Logged-in state (已登入時的頭像/VIP徽章) — confirmed live on jin57.cc:
+  // `.user-vip-inner` holds a round avatar photo sat on a red-gradient
+  // circle, and `.user-vip-level` is a small pill with a tiny badge icon
+  // before the VIP暱稱文字 (e.g. "小鴨").
+  { id: "mobile-status-avatar", label: "手機版狀態列 - 已登入頭像照片（圓形頭像，疊在紅色漸層圓底上）", category: "icon", width: 58, height: 58 },
+  { id: "mobile-status-vip-badge-icon", label: "手機版狀態列 - VIP暱稱徽章小圖示", category: "icon", width: 16, height: 20 },
 
   // Footer vendor/partner logo strip. Upload as many as needed — the
   // footer only renders the ones that actually have a file uploaded.
@@ -326,6 +339,16 @@ export function activityDetailSlotId(id: string): string {
   return `activity-${id}-detail`;
 }
 
+/** Slot id for the DESKTOP version of a 福利 activity's content — confirmed
+ * live on pc.jin57.cc/activity this is a SEPARATE, differently-proportioned
+ * single tall image (1001x2435 real, much narrower/taller ratio than the
+ * mobile 828x2014 asset — not the same file reused at a different width),
+ * shown below a shared sticky tab bar rather than as its own page per
+ * activity. */
+export function activityDesktopDetailSlotId(id: string): string {
+  return `activity-${id}-detail-desktop`;
+}
+
 export const ACTIVITY_SLOTS: ImageSlot[] = MOBILE_PROMOTIONS.flatMap((promo) => [
   {
     id: activityCardSlotId(promo.id),
@@ -340,6 +363,13 @@ export const ACTIVITY_SLOTS: ImageSlot[] = MOBILE_PROMOTIONS.flatMap((promo) => 
     category: "banner" as const,
     width: 828,
     height: 2014,
+  },
+  {
+    id: activityDesktopDetailSlotId(promo.id),
+    label: `桌面版優惠活動頁 - ${promo.label} 活動內容圖（單張長圖，比例與手機版不同，需另外上傳）`,
+    category: "banner" as const,
+    width: 1001,
+    height: 2435,
   },
 ]);
 
@@ -619,6 +649,51 @@ IMAGE_SLOTS.push(
   }))
 );
 
+// A decorative rank badge next to the member's name on the 會員等級 page —
+// confirmed live its real filename is level-specific ("vip0.png" for a
+// VIP0 account), so it's reproduced per-level like the duck avatars rather
+// than as a single static image.
+export function vipLevelBadgeSlotId(level: number): string {
+  return `mobile-vip-level-${level}-badge`;
+}
+
+IMAGE_SLOTS.push(
+  ...VIP_LEVELS.map((lv) => ({
+    id: vipLevelBadgeSlotId(lv.level),
+    label: `手機版會員等級頁 - VIP${lv.level} ${lv.name} 姓名旁裝飾徽章（比例 55:60）`,
+    category: "icon" as const,
+    width: 55,
+    height: 60,
+  }))
+);
+
+// 吼鴨特權 (/vip page) — 4-item benefits list, confirmed live via
+// getComputedStyle on jin57.cc/vip_level's own `.VIP_list`: each item is a
+// gold-gradient (fdf9e7/f6df89/f9ecb8) 10px-radius chip with its own icon
+// on the left (~37:28 ratio) and two stacked, left-aligned text lines to
+// its right (bold red-brown number on top, grey-navy label below) — NOT
+// the plain icon-less white/5 boxes used in the earlier guessed build.
+export const VIP_PERK_ITEMS = [
+  { id: "daily-sell-count", label: "每日託售次數" },
+  { id: "daily-sell-quota", label: "每日點數託售額度" },
+  { id: "levelup-bonus", label: "升級獎金（晉級自動存入）" },
+  { id: "birthday-gift", label: "生日禮（聯絡客服發送）" },
+] as const;
+
+export function vipPerkIconSlotId(id: string): string {
+  return `mobile-vip-perk-${id}-icon`;
+}
+
+IMAGE_SLOTS.push(
+  ...VIP_PERK_ITEMS.map((item) => ({
+    id: vipPerkIconSlotId(item.id),
+    label: `手機版會員等級頁 - 吼鴨特權「${item.label}」圖示（比例 37:28）`,
+    category: "icon" as const,
+    width: 37,
+    height: 28,
+  }))
+);
+
 // 邀請好友 (/invite) — completely rebuilt 2026-08-13 from a fresh live pass
 // on jin57.cc/invite_friend (logged in), re-measured via getComputedStyle +
 // getBoundingClientRect. Real structure is confirmed to be TWO separate
@@ -663,6 +738,18 @@ IMAGE_SLOTS.push({
   category: "banner",
   width: 320,
   height: 320,
+});
+// Full-page background — the real site's wheel sits inside a cross-origin
+// game iframe (its own gold/starburst glow art is baked into that iframe's
+// content and can't be inspected/reproduced without scraping), so per
+// explicit follow-up this project's version gets its own uploadable
+// full-page background slot instead, same pattern as mobile-invite-bg.
+IMAGE_SLOTS.push({
+  id: "mobile-wheel-bg",
+  label: "手機版幸運輪盤頁 - 全版底圖（鋪滿整頁背景，比例建議 414:900 以上）",
+  category: "banner",
+  width: 414,
+  height: 900,
 });
 
 export const ALLOWED_IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "webp", "gif", "svg"] as const;

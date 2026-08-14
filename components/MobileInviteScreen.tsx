@@ -1,6 +1,7 @@
 "use client";
 
 import { mobileSlotKey } from "@/lib/imageTransform";
+import MobileBottomNav from "./MobileBottomNav";
 import MobileSubPageHeader from "./MobileSubPageHeader";
 
 type Props = { images: Record<string, string | null> };
@@ -48,29 +49,42 @@ const CLAIM_ROWS = [
 //     disabled-style grey 領取 button (#595757 bg / #999 text) and a dark
 //     "已領取: N" chip (#171d24 bg / #999 text) — plus two footnote tips
 //     in #d1d5db, all captured verbatim via get_page_text.
+//   - per explicit follow-up (2026-08-14): tabbar added back, with the
+//     推薦成就 card given a 56px bottom margin so it sits exactly 56px
+//     above the tabbar.
 export default function MobileInviteScreen({ images }: Props) {
   const bgSrc = pickImage(images, "mobile-invite-bg");
   const bannerSrc = pickImage(images, "mobile-invite-banner");
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-[linear-gradient(180deg,#192933_0%,#3b6178_50%,#2a4556_100%)]">
+    <div className="relative z-0 flex h-[100dvh] flex-col overflow-hidden bg-[linear-gradient(180deg,#192933_0%,#3b6178_50%,#2a4556_100%)]">
+      {/* Full-page background — moved up to the OUTER wrapper (was
+          previously confined inside the scrollable middle section) per
+          explicit follow-up: it needs to fill the entire screen down to
+          the true bottom edge, behind the header AND the tabbar, not stop
+          short at the scrollable area's own bottom. h-full here sizes it
+          against the h-[100dvh] wrapper (which is what carries the
+          z-0/relative stacking-context fix now).
+
+          Bug fix 2026-08-14 (still applies at this new location): the
+          nearest ancestor with "relative" must also set a z-index (z-0
+          here) or this img's -z-10 escapes to the page root and paints
+          BEHIND the wrapper's own opaque gradient background, making it
+          invisible even though it loads fine. */}
+      {bgSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={bgSrc} alt="" className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover" />
+      ) : (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{ background: "linear-gradient(160deg, #0c1622, #1a2f47 60%, #2a4a63)" }}
+        />
+      )}
+
       <MobileSubPageHeader images={images} title="邀請好友" />
 
-      <div className="relative flex-1 overflow-y-auto">
-        {/* Full-page background — sits behind every section below,
-            stretched to always cover the scrollable area regardless of
-            content height. */}
-        {bgSrc ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={bgSrc} alt="" className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover" />
-        ) : (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10"
-            style={{ background: "linear-gradient(160deg, #0c1622, #1a2f47 60%, #2a4a63)" }}
-          />
-        )}
-
+      <div className="relative z-0 flex-1 overflow-y-auto">
         {/* Envelope illustration — real ~20px top gap, inset 25px each
             side, real 364:456 ratio. */}
         <div className="px-[25px] pt-5">
@@ -119,8 +133,9 @@ export default function MobileInviteScreen({ images }: Props) {
           </div>
         </div>
 
-        {/* 推薦成就 card. */}
-        <div className="mx-[15px] mt-[15px] rounded-[12px] p-4" style={{ background: "#1c232e" }}>
+        {/* 推薦成就 card — mb-[56px] per explicit instruction so its bottom
+            edge sits exactly 56px above the tabbar below. */}
+        <div className="mx-[15px] mt-[15px] mb-[56px] rounded-[12px] p-4" style={{ background: "#1c232e" }}>
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-2 text-[16px] font-bold" style={{ color: "#d1b280" }}>
               <span aria-hidden className="h-[14px] w-[4px] rounded-full" style={{ background: "#d1b280" }} />
@@ -132,9 +147,17 @@ export default function MobileInviteScreen({ images }: Props) {
           </div>
 
           {/* Stat row — 3 columns (re-confirmed live, not 4). */}
-          <div className="mt-4 grid grid-cols-3 gap-[10px]">
+          {/* Stat row wrapper — confirmed live (.ach-cards): 1px DASHED
+              #d9b780 border-top/bottom with 20px vertical padding, wrapping
+              3 individually-boxed cards (.ach-card: 1px SOLID #d9b780
+              border on all sides, 6px radius). */}
+          <div className="mt-4 grid grid-cols-3 gap-[10px] border-y border-dashed py-5" style={{ borderColor: "#d9b780" }}>
             {["推薦註冊人數", "有效儲值人數", "累計獎金"].map((label) => (
-              <div key={label} className="flex flex-col items-center justify-center gap-2 py-4">
+              <div
+                key={label}
+                className="flex flex-col items-center justify-center gap-2 rounded-[6px] border py-4"
+                style={{ borderColor: "#d9b780" }}
+              >
                 <span className="text-[12px]" style={{ color: "#e5e5e5" }}>
                   {label}
                 </span>
@@ -184,6 +207,8 @@ export default function MobileInviteScreen({ images }: Props) {
           </div>
         </div>
       </div>
+
+      <MobileBottomNav images={images} />
     </div>
   );
 }

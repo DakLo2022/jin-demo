@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { heroSlides } from "@/data/promos";
+import { MOBILE_PROMOTIONS } from "@/data/mobilePromotions";
 import { getImageTransformStyle, mobileSlotKey, DEFAULT_IMAGE_TRANSFORM, type ImageTransform } from "@/lib/imageTransform";
 
 type Props = {
@@ -14,6 +16,17 @@ type Props = {
 // image sits inset inside that (382x146, `border-radius: 10px`), confirmed
 // via getBoundingClientRect()/getComputedStyle() on .SwiperBox-jin /
 // .SwiperBox-outline on the real site.
+//
+// Clickable per explicit follow-up ("點什麼banner就去哪個活動內容，這跟福利
+// 頁面是相同的") — confirmed live: tapping a real slide (`.slick-slide img`)
+// navigates to `/activity/?id=N`, which itself immediately redirects to
+// `/activity/details/{id}?title=...` — i.e. the EXACT same detail route this
+// project's 福利 list already links to via its own 查看詳情 button
+// (MobilePromotionsScreen.tsx → `/activity/details/${promo.id}`). Since this
+// demo only carries 4 promotions total (see data/mobilePromotions.ts) and
+// there are also 4 hero slides, each slide here links to the matching
+// MOBILE_PROMOTIONS entry by index, reusing that same detail page rather
+// than inventing a parallel banner-only destination.
 export default function MobileHeroBanner({ images, positions }: Props) {
   const [active, setActive] = useState(0);
 
@@ -32,10 +45,14 @@ export default function MobileHeroBanner({ images, positions }: Props) {
           const mobileSrc = images[mobileSlotKey(slide.slotId)] ?? desktopSrc;
           const transform = positions[mobileSlotKey(slide.slotId)] ?? positions[slide.slotId] ?? DEFAULT_IMAGE_TRANSFORM;
 
+          const linkedPromo = MOBILE_PROMOTIONS[idx % MOBILE_PROMOTIONS.length];
+
           return (
-            <div
+            <Link
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-500 ${
+              href={`/activity/details/${linkedPromo.id}`}
+              aria-label={slide.title}
+              className={`absolute inset-0 block transition-opacity duration-500 ${
                 idx === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
@@ -56,7 +73,7 @@ export default function MobileHeroBanner({ images, positions }: Props) {
                   </div>
                 </div>
               )}
-            </div>
+            </Link>
           );
         })}
 

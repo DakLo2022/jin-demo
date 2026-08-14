@@ -1233,5 +1233,185 @@
     "x": 0,
     "y": 0,
     "scale": 1
+  },
+  "mobile-tab-service-icon-active__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-billing-icon-active__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-member-icon-active__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-tab-home-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-perk-birthday-gift-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-perk-daily-sell-count-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-perk-daily-sell-quota-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-perk-levelup-bonus-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-level-0-badge__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-level-0-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-vip-level-1-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-bind-account-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-invite-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-team-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-tasks-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-records-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-security-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-help-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-language-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-menu-wheel-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-wheel-illustration__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-wheel-bg__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-my-diamond-icon__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "mobile-status-avatar__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "featured-live-card__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-dungeon-detail__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-invite-card__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-father-day-card__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-jin-x-all-card__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-jin-x-all-detail__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-father-day-detail__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-invite-detail__mobile": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-invite-detail-desktop": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-father-day-detail-desktop": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-jin-x-all-detail-desktop": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "activity-dungeon-detail-desktop": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
   }
 }

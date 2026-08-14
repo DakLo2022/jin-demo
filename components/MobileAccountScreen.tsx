@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import MobileBottomNav from "./MobileBottomNav";
 import MobileSubPageHeader from "./MobileSubPageHeader";
 
 type Props = { images: Record<string, string | null> };
@@ -43,9 +44,16 @@ function Checkbox({ label, hint }: { label: string; hint: string }) {
 
 // 帳戶管理 (/account) — confirmed live on jin57.cc/personal: title "變更資料",
 // a plain form (帳號/戶名/暱稱/手機號碼/Line/出生日期, all light input boxes on
-// the dark card), two confirmation checkboxes, then 取消 (outline)/確認修改
-// (gold) buttons — confirmed via get_page_text. Fields are read-only here
+// the dark card), two confirmation checkboxes. Fields are read-only here
 // since this is a demo with no real backend.
+//
+// Re-verified live 2026-08-14 via getComputedStyle on the real 取消/確認修改
+// buttons (mobile viewport): BOTH buttons share identical styling — blue
+// gradient background (#6596b3 → #192933), text color #eef3f7, rounded-full
+// (25px radius on a 45px-tall button), no border, plus a white glow via
+// `filter: drop-shadow(#ebf1f9 0 0 9.62px)` (same technique as the 訊息中心
+// active tab — NOT box-shadow, boxShadow computed to "none" on both). The
+// real page also keeps the bottom tabbar — added back here.
 export default function MobileAccountScreen({ images }: Props) {
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-[linear-gradient(180deg,#192933_0%,#3b6178_50%,#2a4556_100%)]">
@@ -67,18 +75,30 @@ export default function MobileAccountScreen({ images }: Props) {
         </div>
 
         <div className="mt-6 flex gap-3">
-          <button type="button" className="h-11 flex-1 rounded-full border border-white/30 text-[14px] text-white">
+          <button
+            type="button"
+            className="h-11 flex-1 rounded-full text-[14px] font-semibold text-[#eef3f7]"
+            style={{
+              background: "linear-gradient(180deg, #6596b3, #192933)",
+              filter: "drop-shadow(rgb(235, 241, 249) 0px 0px 9.62px)",
+            }}
+          >
             取消
           </button>
           <button
             type="button"
-            className="h-11 flex-1 rounded-full text-[14px] font-semibold text-[#2a4556]"
-            style={{ background: "linear-gradient(180deg, #fdf9e7, #f6df89, #f9ecb8)" }}
+            className="h-11 flex-1 rounded-full text-[14px] font-semibold text-[#eef3f7]"
+            style={{
+              background: "linear-gradient(180deg, #6596b3, #192933)",
+              filter: "drop-shadow(rgb(235, 241, 249) 0px 0px 9.62px)",
+            }}
           >
             確認修改
           </button>
         </div>
       </div>
+
+      <MobileBottomNav images={images} />
     </div>
   );
 }

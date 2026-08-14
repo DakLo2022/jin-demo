@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { heroSlides } from "@/data/promos";
+import { MOBILE_PROMOTIONS } from "@/data/mobilePromotions";
 import { getImageTransformStyle, mobileSlotKey, DEFAULT_IMAGE_TRANSFORM, type ImageTransform } from "@/lib/imageTransform";
 
 type Props = {
@@ -13,6 +15,16 @@ type Props = {
 // always visible; mobile swaps in below `md` and falls back to the desktop
 // file until a mobile-specific one is uploaded in /image-manager) or a
 // decorative CSS-only placeholder if nothing has been uploaded yet.
+//
+// Clickable per explicit follow-up ("桌面版，點擊banner時，要跳轉至該banner
+// 活動詳情頁面") — same reasoning as the mobile banner (MobileHeroBanner.tsx):
+// each of the 4 slides here maps by index to the matching MOBILE_PROMOTIONS
+// entry. Desktop's activity page (DesktopPromotionsScreen.tsx) isn't a
+// separate /details/[id] route like mobile's — confirmed live on
+// pc.jin57.cc/activity it's a single page with a client-side tab switch that
+// updates a `?id=` query param — so clicking a slide here links to
+// `/activity?id=<promoId>`, and that page reads the param on load to open
+// the matching tab (see DesktopPromotionsScreen's useSearchParams usage).
 export default function HeroCarousel({ images, positions }: Props) {
   const [active, setActive] = useState(0);
 
@@ -32,10 +44,14 @@ export default function HeroCarousel({ images, positions }: Props) {
           const desktopTransform = positions[slide.slotId] ?? DEFAULT_IMAGE_TRANSFORM;
           const mobileTransform = positions[mobileSlotKey(slide.slotId)] ?? desktopTransform;
 
+          const linkedPromo = MOBILE_PROMOTIONS[idx % MOBILE_PROMOTIONS.length];
+
           return (
-            <div
+            <Link
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-500 ${
+              href={`/activity?id=${linkedPromo.id}`}
+              aria-label={slide.title}
+              className={`absolute inset-0 block transition-opacity duration-500 ${
                 idx === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
@@ -69,7 +85,7 @@ export default function HeroCarousel({ images, positions }: Props) {
                   </div>
                 </div>
               )}
-            </div>
+            </Link>
           );
         })}
 

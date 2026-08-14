@@ -15,6 +15,12 @@ type Props = {
 // getSlotImageMap() itself). Hovering any category (except 優惠活動) opens a
 // full-width dropdown panel listing that category's providers; each
 // provider's icon comes from its own image-manager "provider" slot.
+//
+// 優惠活動 link — re-verified live 2026-08-14 while building the desktop
+// /activity page: the #ac35de purple/magenta text color was already correct
+// (confirmed via getComputedStyle on the real `<p class="discount">` node),
+// but the href previously pointed at a nonexistent `/promotions` route —
+// fixed to `/activity`, the real destination confirmed live.
 export default function Navbar({ images }: Props) {
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   const activeCategory = navCategories.find((c) => c.key === hoveredKey);
@@ -52,7 +58,7 @@ export default function Navbar({ images }: Props) {
             </Link>
           ))}
           <Link
-            href="/promotions"
+            href="/activity"
             onMouseEnter={() => setHoveredKey(null)}
             className="border-l border-neutral-200 py-1 pl-4 font-semibold text-[#ac35de] transition hover:opacity-80"
           >
